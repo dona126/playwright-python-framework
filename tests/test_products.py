@@ -9,19 +9,19 @@ def test_products_load(page: Page):
     login.goto()
     login.login("standard_user", "secret_sauce")
     products = ProductsPage(page)
-    expect(products.products).to_have_count(6)
+    assert products.get_product_count() == 6
     
     
     
 def test_add_to_cart(page: Page):
-    #Verify add to cart of first item and returns if item got added
+    #Verify add to cart of first item and checks if item got added in cart
     login = LoginPage(page)
     login.goto()
     login.login("standard_user", "secret_sauce")
     products = ProductsPage(page)
-    product_name = products.add_first_item_to_cart()
+    productN_added_to_cart = products.add_first_item_to_cart()
     products.open_cart()
     cart = CartPage(page)
-    item_present = cart.check_item_in_cart()
-    expect(item_present).to_contain_text(product_name)
+    all_items_in_cart = cart.check_item_in_cart()
+    expect(all_items_in_cart).to_contain_text(productN_added_to_cart)
     
